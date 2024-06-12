@@ -1,0 +1,19 @@
+SELECT
+  (
+  SELECT
+    value.string_value
+  FROM
+    UNNEST(event_params)
+  WHERE
+    KEY='page_location') AS page,
+  traffic_source.name,
+  COUNT (*) AS visit_count
+FROM
+  `location` ev
+WHERE
+  event_name = 'page_view'AND traffic_source.name like '%GOOGLE-DISPLAY-MNM%'
+GROUP BY
+  1,
+  2
+ORDER BY
+  3 desc
