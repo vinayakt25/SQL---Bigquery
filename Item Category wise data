@@ -1,0 +1,30 @@
+Item category:
+
+SELECT
+  DISTINCT items.item_id,
+  items.item_name,
+  items.price,
+  items.price_in_usd,
+  items.item_revenue_in_usd,
+  items.item_revenue
+FROM
+  `bisleri-dd3eb.analytics_300286193.events_202407*`,
+  UNNEST(items) items
+WHERE
+  event_name = 'purchase'
+  AND stream_id IN ('3203174304',
+    '3203213629')
+
+
+Event params:
+
+SELECT
+  DISTINCT KEY AS Event_Params_Key,
+  COALESCE(CAST(value.int_value AS string), CAST(value.float_value AS string),value.string_value,CAST(value.double_value AS string)) AS Event_Params_Values,
+FROM
+  `bisleri-dd3eb.analytics_300286193.events_20240718`,
+  UNNEST(event_params) AS event_params
+WHERE
+  event_name = 'purchase'
+  AND stream_id IN ('3203174304',
+    '3203213629')
