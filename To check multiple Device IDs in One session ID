@@ -1,0 +1,12 @@
+SELECT
+    (SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') AS session_id,
+    COUNT(DISTINCT user_pseudo_id) AS distinct_client_ids
+FROM
+    `your-project.analytics_XXXXXXX.events_*`
+GROUP BY
+    session_id
+HAVING
+    distinct_client_ids > 1
+ORDER BY
+    distinct_client_ids DESC
+LIMIT 100;
