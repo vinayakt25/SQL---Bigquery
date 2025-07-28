@@ -1,0 +1,16 @@
+SELECT
+    event_timestamp,
+    event_name,
+    user_pseudo_id, -- This is the client/device ID
+    device.category AS device_category,
+    device.operating_system,
+    geo.country,
+    geo.city
+FROM
+    `maxlifeinsurance-145508.analytics_420366865.events_*`
+WHERE
+    (SELECT value.int_value FROM UNNEST(event_params) WHERE key = 'ga_session_id') = 1751443320
+    AND stream_id = '6473940459'
+
+ORDER BY
+    event_timestamp;
